@@ -1,0 +1,20 @@
+(ffmpeg -y -i /tmp/1.wav -ab 128k /tmp/128.mp2 >&2) 2> /dev/null
+(ffmpeg -y -i /tmp/1.wav -ab 64k /tmp/64.mp2 >&2) 2> /dev/null
+(ffmpeg -y -i /tmp/1.wav -ab 32k /tmp/32.mp2 >&2) 2> /dev/null
+(ffmpeg -y -i /tmp/128.mp2 /tmp/128.wav >&2) 2> /dev/null
+(ffmpeg -y -i /tmp/64.mp2 /tmp/64.wav >&2) 2> /dev/null
+(ffmpeg -y -i /tmp/32.mp2 /tmp/32.wav >&2) 2> /dev/null
+
+echo "With FFT"
+
+~/bin/snr --block_size=4096 --file_A=/tmp/1.wav --file_B=/tmp/128.wav --FFT 2> /dev/null | grep RMSE
+~/bin/snr --block_size=4096 --file_A=/tmp/1.wav --file_B=/tmp/64.wav --FFT 2> /dev/null | grep RMSE
+~/bin/snr --block_size=4096 --file_A=/tmp/1.wav --file_B=/tmp/32.wav --FFT 2> /dev/null | grep RMSE
+
+echo "Without FFT"
+
+~/bin/snr --block_size=4096 --file_A=/tmp/1.wav --file_B=/tmp/128.wav 2> /dev/null | grep RMSE
+~/bin/snr --block_size=4096 --file_A=/tmp/1.wav --file_B=/tmp/64.wav 2> /dev/null | grep RMSE
+~/bin/snr --block_size=4096 --file_A=/tmp/1.wav --file_B=/tmp/32.wav 2> /dev/null | grep RMSE
+
+ls -l /tmp/1.wav /tmp/32.wav /tmp/64.wav /tmp/128.wav
