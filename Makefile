@@ -1,5 +1,5 @@
 CC	= g++
-FLAGS	= -pipe -O3 -static -D _FFT_
+FLAGS	= -pipe -O3 -D _FFT_
 LIBS	= -lm -lfftw3
 
 $(HOME)/bin/% :: %.c
